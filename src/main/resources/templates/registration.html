@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <title>Registration</title>
+</head>
+<body>
+
+<h1>Registration</h1>
+
+<div class="container">
+    <form action="/registration" method="post">
+        <fieldset class="form-group">
+            <label class="font-weight-bolder">First Name</label>
+
+            <input class="form-control"
+                   name="firstName"
+                   placeholder="Enter your first name"
+                   type="text">
+
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label class="font-weight-bolder">Last Name</label>
+
+            <input class="form-control"
+                   name="lastName"
+                   placeholder="Enter your last name"
+                   type="text">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label class="font-weight-bolder">Age</label>
+            <input class="form-control"
+                   name="age"
+                   placeholder="Enter your age"
+                   type="number">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label class="font-weight-bolder">Email</label>
+
+            <input class="form-control"
+                   name="email"
+                   placeholder="Enter your email"
+                   type="email">
+        </fieldset>
+
+        <fieldset class="form-group">
+            <label class="font-weight-bolder">Password</label>
+
+            <input class="form-control"
+                   name="password"
+                   placeholder="Enter your password"
+                   type="password">
+        </fieldset>
+        <button type="submit" class="btn btn-success">Registration</button>
+    </form>
+</div>
+</body>
+</html>

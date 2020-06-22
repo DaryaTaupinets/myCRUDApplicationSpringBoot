@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:dath="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet"
@@ -10,34 +10,50 @@
 </head>
 <body>
 
-<h1>Edit user</h1>
+<h1>Edit User</h1>
 
 <div class="container">
-    <form action="/user/update" method="post">
+    <form action="#"
+          th:action="@{/update/{id}(id=${user.id})}"
+          th:object="${user}"
+          method="post">
+
+        <fieldset class="form-group">
+            <label class="font-weight-bolder">ID</label>
+
+            <input class="form-control"
+                   th:field="*{id}"
+                   name="id"
+                   placeholder="ID"
+                   type="number">
+        </fieldset>
+
         <fieldset class="form-group">
             <label class="font-weight-bolder">First Name</label>
 
             <input class="form-control"
+                   th:field="*{firstName}"
                    name="firstName"
-                   placeholder="Enter your first name"
+                   placeholder="First name"
                    type="text">
-
         </fieldset>
 
         <fieldset class="form-group">
             <label class="font-weight-bolder">Last Name</label>
 
             <input class="form-control"
+                   th:field="*{lastName}"
                    name="lastName"
-                   placeholder="Enter your last name"
+                   placeholder="Last name"
                    type="text">
         </fieldset>
 
         <fieldset class="form-group">
             <label class="font-weight-bolder">Age</label>
             <input class="form-control"
+                   th:field="*{age}"
                    name="age"
-                   placeholder="Enter your age"
+                   placeholder="Age"
                    type="number">
         </fieldset>
 
@@ -45,8 +61,9 @@
             <label class="font-weight-bolder">Email</label>
 
             <input class="form-control"
+                   th:field="*{email}"
                    name="email"
-                   placeholder="Enter your email"
+                   placeholder="Email"
                    type="email">
         </fieldset>
 
@@ -54,20 +71,24 @@
             <label class="font-weight-bolder">Password</label>
 
             <input class="form-control"
+                   th:field="*{password}"
                    name="password"
-                   placeholder="Enter your password"
+                   placeholder="Password"
                    type="password">
         </fieldset>
-
         <fieldset class="form-group">
-            <label>Role</label>
-            <div data-th-each="role : ${roles}">
-                <input data-th-id="${role}" type="checkbox" data-th-name="roles[]" data-th-value="${role}" data-th-checked="${#lists.contains(user.roles, role)}" />
-                <label data-th-text="${role}" /></label>
+            <label class="font-weight-bolder">Role</label>
+            <div class="select" style="width:225px;" align="center">
+                <select name="role" multiple size="2" style="width: 225px; ">
+                    <option> ADMIN</option>
+                    <option selected> USER</option>
+                </select>
             </div>
         </fieldset>
-
-        <button type="submit" class="btn btn-success">Save</button>
+        <a href="/">
+            <button type="button" class="btn btn-secondary">Close</button>
+        </a>
+        <button type="submit" class="btn btn-primary">Edit</button>
     </form>
 </div>
 </body>

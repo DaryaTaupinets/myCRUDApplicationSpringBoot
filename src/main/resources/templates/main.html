@@ -1,18 +1,82 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
-    <title>Start page</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Admin panel</title>
 </head>
+
 <body>
-<div>Hello, user</div>
-<a href="/user">
-    <button type="button" class="btn btn-primary">Admin page</button>
-</a>
+<header>
+    <nav class="navbar navbar-dark text-white bg-dark">
+        <h1>Unknown user</h1>
+        <div>
+            <a th:href="@{/logout}">
+                <input type="submit" value="Logout"/>
+            </a>
+        </div>
+    </nav>
+</header>
+
+<h1>Admin panel</h1>
+
+<form method="post" action="filter">
+    <input type="text" name="filter">
+    <button type="submit" class="btn btn-secondary">Find</button>
+</form>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" href="/">Users table</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/admin/create">Add New User</a>
+    </li>
+</ul>
+<h4>All users</h4>
+
+<table class="table table table-hover">
+    <thead>
+    <tr class="active">
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr data-th-each="user : ${users}">
+        <td data-th-text="${user.id}"></td>
+        <td data-th-text="${user.firstName}"></td>
+        <td data-th-text="${user.lastName}"></td>
+        <td data-th-text="${user.age}"></td>
+        <td data-th-text="${user.email}"></td>
+        <td>
+            <div data-th-each="role : ${user.roles}">
+                <span data-th-text="${role.roleName}"></span>
+                <br>
+            </div>
+        </td>
+        <td>
+            <a th:href="@{/edit/{id}(id=${user.id})}">
+                <button type="button" class="btn btn-info">Edit</button>
+            </a>
+        </td>
+        <td>
+            <a th:href="@{/delete/{id}(id=${user.id})}">
+                <button type="button" class="btn btn-danger">Delete</button>
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

@@ -1,34 +1,38 @@
-package ru.mail.evmenova.springboot.model;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+package ru.mail.evmenova.springbootapp.model;
 
 import javax.persistence.*;
-import java.util.Collection;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class User implements UserDetails {
-
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotBlank(message = "First Name is mandatory")
     private String firstName;
 
+    @NotBlank(message = "Last Name  is mandatory")
     private String lastName;
 
+    @NotNull(message = "Age is mandatory")
     private Byte age;
 
+    @NotBlank(message = "Email is mandatory")
     private String email;
 
+    @NotBlank(message = "Password is mandatory")
     private String password;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.LAZY)
-    @CollectionTable(name ="user_role", joinColumns =@JoinColumn(name ="user_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    @ManyToMany
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -40,6 +44,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
     }
+
 
     public Integer getId() {
         return id;
@@ -95,35 +100,5 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }

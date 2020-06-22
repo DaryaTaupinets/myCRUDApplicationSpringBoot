@@ -1,12 +1,12 @@
-package ru.mail.evmenova.springboot;
+package ru.mail.evmenova.springbootapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringbootApplication {
+public class SpringbootappApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootApplication.class, args);
+        SpringApplication.run(SpringbootappApplication.class, args);
     }
 }

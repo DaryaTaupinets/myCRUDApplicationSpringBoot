@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <title>User page</title>
+</head>
+
+<body>
+<header>
+    <nav class="navbar navbar-dark text-white bg-dark">
+        <h1>Unknown user</h1>
+        <div>
+            <a th:href="@{/logout}">
+                <input type="submit" value="Logout"/>
+            </a>
+        </div>
+    </nav>
+</header>
+
+<h1>User information-page</h1>
+
+<h4>About user</h4>
+
+<table class="table table table-hover">
+    <thead>
+    <tr class="active">
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Role</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    </tbody>
+</table>
+</body>
+</html>

@@ -20,8 +20,8 @@ import java.util.Set;
 @Controller
 public class UserController {
 
-    UserRepository userRepository;
-    RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public UserController(UserRepository userRepository, RoleRepository roleRepository) {
@@ -29,10 +29,15 @@ public class UserController {
         this.roleRepository = roleRepository;
     }
 
-    @GetMapping("/")
+    @GetMapping("/admin")
     public String main(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "main";
+    }
+
+    @GetMapping("/user")
+    public String showUserPage(Model model){
+        return "user-page";
     }
 
     @PostMapping("filter")
@@ -67,10 +72,10 @@ public class UserController {
         }
         user.setRoles(roles);
         userRepository.save(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/admin/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id,
                                  Model model) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
@@ -78,7 +83,7 @@ public class UserController {
         return "update-user";
     }
 
-    @PostMapping("/update/{id}")
+    @PostMapping("/admin/update/{id}")
     public String updateUser(@PathVariable("id") Integer id,
                              @Valid User user,
                              BindingResult result,
@@ -94,16 +99,21 @@ public class UserController {
         }
         user.setRoles(roles);
         userRepository.save(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("admin/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id,
                              Model model) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         userRepository.delete(user);
         model.addAttribute("users", userRepository.findAll());
-        return "redirect:/";
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/accessDenied")
+    public String accessDeniedPage(Model model) {
+        return "noAdminRights";
     }
 }

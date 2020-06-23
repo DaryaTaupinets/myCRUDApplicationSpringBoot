@@ -111,9 +111,4 @@ public class UserController {
         model.addAttribute("users", userRepository.findAll());
         return "redirect:/admin";
     }
-
-    @GetMapping("/accessDenied")
-    public String accessDeniedPage(Model model) {
-        return "noAdminRights";
-    }
 }

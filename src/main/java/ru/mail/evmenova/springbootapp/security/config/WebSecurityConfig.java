@@ -7,43 +7,26 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ru.mail.evmenova.springbootapp.security.handlers.LoginSuccessHandler;
-import ru.mail.evmenova.springbootapp.security.handlers.LogoutSuccessHandlerImpl;
-
-import javax.sql.DataSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.mail.evmenova.springbootapp.security.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsService userDetailsServiceImpl;
-
-    @Autowired
-    private DataSource dataSource;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder(){
+        PasswordEncoder encoder = new BCryptPasswordEncoder(8);
+        return encoder;
     }
-
-    @Bean
-    public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler();
-    }
-
-    @Bean
-    public LogoutSuccessHandlerImpl logoutSuccessHandler() {
-        return new LogoutSuccessHandlerImpl();
-    }
-
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsServiceImpl)
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
@@ -51,19 +34,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("admin")
-                .antMatchers("/user/**").hasAnyRole("user", "admin")
+                    .authorizeRequests()
+                    .antMatchers("/").permitAll()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                    .anyRequest()
+                    .authenticated()
                 .and()
-                .authorizeRequests().antMatchers("/login**").permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .successHandler(loginSuccessHandler())
-                .permitAll()
-                .and()
-                .logout().logoutSuccessHandler(logoutSuccessHandler()).permitAll()
-                .and()
-                .exceptionHandling().accessDeniedPage("/accessDenied");
+                    .formLogin()
+                    .loginPage("/login")
+                    .permitAll();
     }
 }
